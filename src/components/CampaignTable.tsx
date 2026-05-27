@@ -46,7 +46,7 @@ export default function CampaignTable({ data }: Props) {
 
   const sorted = [...data].sort((a, b) => {
     const dir = sortDir === "desc" ? -1 : 1;
-    return (a[sortKey] - b[sortKey]) * dir;
+    return ((a[sortKey] as number) - (b[sortKey] as number)) * dir;
   });
 
   function SortIcon({ col }: { col: SortKey }) {
