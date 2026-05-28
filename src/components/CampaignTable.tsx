@@ -211,7 +211,6 @@ export default function CampaignTable({ data }: Props) {
           </tbody>
         </table>
       </div>
-      </div>
 
       {/* Detail panel */}
       {selected && (
