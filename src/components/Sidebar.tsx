@@ -47,7 +47,8 @@ export default function Sidebar({
   }
 
   return (
-    <aside className="w-56 shrink-0 flex flex-col border-r border-zinc-800 h-screen bg-[#09090b] pt-6 pb-8 px-3 overflow-y-auto">
+    <>
+    <aside className="hidden md:flex w-56 shrink-0 flex-col border-r border-zinc-800 h-screen bg-[#09090b] pt-6 pb-8 px-3 overflow-y-auto">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-3 mb-8">
         <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-yellow-400 text-black text-xs font-bold select-none">
@@ -94,5 +95,25 @@ export default function Sidebar({
         </div>
       </div>
     </aside>
+
+    {/* Mobile bottom nav */}
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#09090b]/95 backdrop-blur-sm border-t border-zinc-800 flex items-center justify-around px-2 pb-safe">
+      {NAV.map((item) => {
+        const active = activeSection === item.key;
+        return (
+          <button
+            key={item.key}
+            onClick={() => navigate(item.key)}
+            className={`flex flex-col items-center gap-1 px-5 py-3 rounded-xl transition-colors ${
+              active ? "text-yellow-400" : "text-zinc-500"
+            }`}
+          >
+            <span className={`w-5 h-5 ${active ? "text-yellow-400" : "text-zinc-500"}`}>{item.icon}</span>
+            <span className="text-[10px] font-medium leading-none">{item.label}</span>
+          </button>
+        );
+      })}
+    </nav>
+    </>
   );
 }

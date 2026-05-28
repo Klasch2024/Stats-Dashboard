@@ -461,6 +461,7 @@ export default function CampaignsView({ range }: Props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [mobileView, setMobileView] = useState<"list" | "detail">("list");
 
   useEffect(() => {
     setLoading(true);
@@ -489,7 +490,7 @@ export default function CampaignsView({ range }: Props) {
   return (
     <div className="flex gap-4 h-full min-h-0">
       {/* Left panel — campaign list */}
-      <div className="w-72 shrink-0 flex flex-col min-h-0">
+      <div className={`${mobileView === "detail" ? "hidden md:flex" : "flex"} md:w-72 w-full shrink-0 flex-col min-h-0`}>
         <div className="flex items-center justify-between mb-3 shrink-0">
           <p className="text-xs text-zinc-500">
             {loading ? "Loading…" : `${campaigns.length} campaigns`}
@@ -509,7 +510,7 @@ export default function CampaignsView({ range }: Props) {
                     key={c.id}
                     campaign={c}
                     selected={selectedId === c.id}
-                    onClick={() => setSelectedId(c.id)}
+                    onClick={() => { setSelectedId(c.id); setMobileView("detail"); }}
                   />
                 ))}
           </div>
@@ -517,29 +518,33 @@ export default function CampaignsView({ range }: Props) {
       </div>
 
       {/* Right panel — detail */}
-      <div className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden min-h-0">
-        {selectedId ? (
-          <CampaignDetail campaignId={selectedId} range={range} />
-        ) : (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-3">
-                <svg
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="w-5 h-5 text-zinc-600"
-                >
-                  <path d="M2 4.5A2.5 2.5 0 014.5 2h11A2.5 2.5 0 0118 4.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 012 15.5v-11zM4.5 4a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h11a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5h-11z" />
-                  <path d="M6 7h8M6 10h8M6 13h5" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" />
-                </svg>
+      <div className={`${mobileView === "list" ? "hidden md:flex" : "flex"} flex-1 flex-col bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden min-h-0`}>
+        {/* Mobile back button */}
+        <button
+          onClick={() => setMobileView("list")}
+          className="md:hidden flex items-center gap-2 px-4 py-3 text-xs text-zinc-400 border-b border-zinc-800 shrink-0"
+        >
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5"><path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" /></svg>
+          All campaigns
+        </button>
+        <div className="flex-1 overflow-hidden min-h-0">
+          {selectedId ? (
+            <CampaignDetail campaignId={selectedId} range={range} />
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mx-auto mb-3">
+                  <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-zinc-600">
+                    <path d="M2 4.5A2.5 2.5 0 014.5 2h11A2.5 2.5 0 0118 4.5v11a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 012 15.5v-11zM4.5 4a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h11a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5h-11z" />
+                    <path d="M6 7h8M6 10h8M6 13h5" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <p className="text-sm text-zinc-500">Select a campaign</p>
+                <p className="text-xs text-zinc-700 mt-1">Choose a campaign from the list to view its stats</p>
               </div>
-              <p className="text-sm text-zinc-500">Select a campaign</p>
-              <p className="text-xs text-zinc-700 mt-1">
-                Choose a campaign from the list to view its stats
-              </p>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

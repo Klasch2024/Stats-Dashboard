@@ -40,7 +40,7 @@ export default function DateRangeFilter({ currentRange, currentChannel }: Props)
   );
 
   return (
-    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+    <div className="flex flex-row items-center gap-2 overflow-x-auto pb-0.5 w-full md:w-auto scrollbar-none">
       {/* Channel tabs */}
       <div className="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-lg p-1.5">
         {CHANNEL_OPTIONS.map((opt) => (

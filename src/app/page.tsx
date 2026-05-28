@@ -92,19 +92,19 @@ export default async function DashboardPage({ searchParams }: PageProps) {
 
         {/* Top bar */}
         <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-sm">
-          <div className="px-8 h-16 flex items-center justify-between gap-4">
+          <div className="px-4 md:px-8 py-3 md:h-16 flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4">
             <div>
               <h1 className="text-sm font-semibold text-zinc-100">{sectionTitle}</h1>
               <p className="text-xs text-zinc-500">{sectionDesc}</p>
             </div>
-            <Suspense fallback={<div className="h-9 w-72 bg-zinc-800 rounded-lg animate-pulse" />}>
+            <Suspense fallback={<div className="h-9 w-full md:w-72 bg-zinc-800 rounded-lg animate-pulse" />}>
               <DateRangeFilter currentRange={range} currentChannel={channel} />
             </Suspense>
           </div>
         </header>
 
         {/* Page content */}
-        <main className={`flex-1 px-8 py-8 ${section === "stats" ? "overflow-y-auto" : "overflow-hidden flex flex-col"}`}>
+        <main className={`flex-1 px-4 py-4 md:px-8 md:py-8 pb-20 md:pb-8 ${section === "stats" ? "overflow-y-auto" : "overflow-hidden flex flex-col"}`}>
           {section === "stats" ? (
             <CampaignStatsView
               kpi={kpi}
@@ -129,7 +129,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
           )}
         </main>
 
-        <footer className="px-8 py-4 border-t border-zinc-800/40 text-xs text-zinc-700">
+        <footer className="hidden md:block px-8 py-4 border-t border-zinc-800/40 text-xs text-zinc-700">
           Fulcrum Analytics · Live data · All times UTC
         </footer>
       </div>

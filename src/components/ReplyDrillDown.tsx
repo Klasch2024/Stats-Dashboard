@@ -237,6 +237,7 @@ export default function ReplyDrillDown({ range, channel }: Props) {
   const [loading, setLoading]     = useState(true);
   const [error, setError]         = useState<string | null>(null);
   const [selected, setSelected]   = useState<ReplyRow | null>(null);
+  const [mobileView, setMobileView] = useState<"list" | "detail">("list");
 
   useEffect(() => {
     setLoading(true);
@@ -349,7 +350,7 @@ export default function ReplyDrillDown({ range, channel }: Props) {
         <div className="flex-1 flex gap-4 min-h-0">
 
           {/* Left: reply list */}
-          <div className="w-96 shrink-0 flex flex-col min-h-0">
+          <div className={`${mobileView === "detail" ? "hidden md:flex" : "flex"} md:w-96 w-full shrink-0 flex-col min-h-0`}>
             <p className="text-xs text-zinc-600 mb-2 shrink-0">{visibleReplies.length} replies</p>
             <div className="flex-1 overflow-y-auto space-y-2 pr-1">
               {visibleReplies.map(reply => (
@@ -357,21 +358,31 @@ export default function ReplyDrillDown({ range, channel }: Props) {
                   key={reply.reply_id}
                   reply={reply}
                   selected={selected?.reply_id === reply.reply_id}
-                  onClick={() => setSelected(reply)}
+                  onClick={() => { setSelected(reply); setMobileView("detail"); }}
                 />
               ))}
             </div>
           </div>
 
           {/* Right: detail panel */}
-          <div className="flex-1 bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden min-h-0">
-            {selected ? (
-              <ReplyDetail reply={selected} />
-            ) : (
-              <div className="h-full flex items-center justify-center text-sm text-zinc-600">
-                Select a reply to view
-              </div>
-            )}
+          <div className={`${mobileView === "list" ? "hidden md:flex" : "flex"} flex-1 flex-col bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden min-h-0`}>
+            {/* Mobile back button */}
+            <button
+              onClick={() => setMobileView("list")}
+              className="md:hidden flex items-center gap-2 px-4 py-3 text-xs text-zinc-400 border-b border-zinc-800 shrink-0"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="w-3.5 h-3.5"><path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" /></svg>
+              Back to replies
+            </button>
+            <div className="flex-1 overflow-hidden">
+              {selected ? (
+                <ReplyDetail reply={selected} />
+              ) : (
+                <div className="h-full flex items-center justify-center text-sm text-zinc-600">
+                  Select a reply to view
+                </div>
+              )}
+            </div>
           </div>
 
         </div>
