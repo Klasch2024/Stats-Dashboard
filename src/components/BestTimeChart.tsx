@@ -150,6 +150,7 @@ export default function BestTimeChart({ dayData, hourData }: Props) {
                 tick={{ fill: "#71717a", fontSize: 10 }}
                 axisLine={false}
                 tickLine={false}
+                interval={3}
               />
               <YAxis
                 tickFormatter={(v) => v + "%"}

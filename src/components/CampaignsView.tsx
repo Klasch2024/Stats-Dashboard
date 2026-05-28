@@ -296,7 +296,7 @@ function DetailSkeleton() {
   return (
     <div className="h-full flex flex-col gap-6 p-6 animate-pulse">
       <div className="h-6 bg-zinc-800 rounded w-1/2" />
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="bg-zinc-800 rounded-xl h-20" />
         ))}

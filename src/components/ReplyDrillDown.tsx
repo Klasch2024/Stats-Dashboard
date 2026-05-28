@@ -280,7 +280,7 @@ export default function ReplyDrillDown({ range, channel }: Props) {
     <div className="flex flex-col h-full">
 
       {/* Tab bar */}
-      <div className="flex items-center gap-1 mb-4 bg-zinc-900 border border-zinc-800 rounded-xl p-1 w-fit">
+      <div className="flex items-center gap-1 mb-4 bg-zinc-900 border border-zinc-800 rounded-xl p-1 w-full md:w-fit overflow-x-auto scrollbar-none">
         {TABS.map(tab => (
           <button
             key={tab.key}

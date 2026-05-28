@@ -80,7 +80,48 @@ export default function CampaignTable({ data }: Props) {
 
   return (
     <div>
-      <div className="overflow-x-auto rounded-xl border border-zinc-800">
+      {/* Mobile card view */}
+      <div className="md:hidden space-y-2">
+        {sorted.length === 0 && (
+          <p className="text-center text-zinc-500 text-sm py-8">No campaign data for this period</p>
+        )}
+        {sorted.map((row) => (
+          <div
+            key={`${row.campaignId}-${row.channel}`}
+            onClick={() => setSelected(selected?.campaignId === row.campaignId && selected?.channel === row.channel ? null : row)}
+            className={`rounded-xl border p-4 cursor-pointer transition-colors ${
+              selected?.campaignId === row.campaignId && selected?.channel === row.channel
+                ? "bg-yellow-500/10 border-yellow-500/30"
+                : "bg-zinc-900 border-zinc-800"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-zinc-100 truncate">{row.campaignName ?? row.campaignId.slice(0, 16) + "…"}</p>
+                <p className="font-mono text-[10px] text-zinc-600 mt-0.5">{row.campaignId.slice(0, 8)}…</p>
+              </div>
+              <ChannelBadge channel={row.channel} />
+            </div>
+            <div className="grid grid-cols-3 gap-2 mt-3">
+              <div>
+                <p className="text-[10px] text-zinc-600 uppercase tracking-wide">Sends</p>
+                <p className="text-sm font-semibold text-zinc-200 tabular-nums">{row.sends.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-zinc-600 uppercase tracking-wide">Replies</p>
+                <p className="text-sm font-semibold text-zinc-200 tabular-nums">{row.replies.toLocaleString()}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-zinc-600 uppercase tracking-wide">+Reply%</p>
+                <RateCell value={row.positiveReplyRate} thresholds={[2, 5]} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table view */}
+      <div className="hidden md:block overflow-x-auto rounded-xl border border-zinc-800">
         <table className="w-full text-sm">
           <thead className="bg-zinc-900/80 border-b border-zinc-800">
             <tr>
@@ -169,6 +210,7 @@ export default function CampaignTable({ data }: Props) {
             ))}
           </tbody>
         </table>
+      </div>
       </div>
 
       {/* Detail panel */}

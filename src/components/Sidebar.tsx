@@ -108,7 +108,7 @@ export default function Sidebar({
               active ? "text-yellow-400" : "text-zinc-500"
             }`}
           >
-            <span className={`w-5 h-5 ${active ? "text-yellow-400" : "text-zinc-500"}`}>{item.icon}</span>
+            <span className={`[&>svg]:w-5 [&>svg]:h-5 ${active ? "text-yellow-400" : "text-zinc-500"}`}>{item.icon}</span>
             <span className="text-[10px] font-medium leading-none">{item.label}</span>
           </button>
         );

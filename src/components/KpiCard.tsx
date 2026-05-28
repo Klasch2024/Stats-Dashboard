@@ -35,7 +35,7 @@ export default function KpiCard({
   const valClass = valueAccentClasses[accent];
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5 flex flex-col gap-3 hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 md:p-5 flex flex-col gap-2 md:gap-3 hover:border-zinc-700 transition-colors">
       <div className="flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
           {title}
@@ -50,7 +50,7 @@ export default function KpiCard({
       </div>
 
       <div>
-        <p className={`text-3xl font-bold tracking-tight ${valClass}`}>
+        <p className={`text-xl md:text-3xl font-bold tracking-tight ${valClass}`}>
           {value}
         </p>
         {subtitle && (
