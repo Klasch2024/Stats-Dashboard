@@ -116,7 +116,7 @@ export async function fetchKpiData(
   let sendsQuery = supabase.from("outreach_sends").select(
     "message_id, channel, email_opened, whatsapp_read, deliverability_status",
     { count: "exact" }
-  );
+  ).limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -137,7 +137,8 @@ export async function fetchKpiData(
   // Replies
   let repliesQuery = supabase
     .from("replies")
-    .select("reply_id, is_positive_reply, is_auto_reply, channel");
+    .select("reply_id, is_positive_reply, is_auto_reply, channel")
+    .limit(10000);
   if (fromDate)
     repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
@@ -181,7 +182,8 @@ export async function fetchReplyRateOverTime(
   // Fetch sends with week info
   let sendsQuery = supabase
     .from("outreach_sends")
-    .select("message_id, sent_week_of_year, sent_at, channel");
+    .select("message_id, sent_week_of_year, sent_at, channel")
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -193,7 +195,8 @@ export async function fetchReplyRateOverTime(
   let repliesQuery = supabase
     .from("replies")
     .select("reply_id, message_id, is_positive_reply, received_at, channel")
-    .eq("is_positive_reply", true);
+    .eq("is_positive_reply", true)
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -254,7 +257,8 @@ export async function fetchSendsByChannel(
 
   let query = supabase
     .from("outreach_sends")
-    .select("channel, sent_at, sent_month");
+    .select("channel, sent_at, sent_month")
+    .limit(10000);
   if (fromDate) query = query.gte("sent_at", fromDate);
 
   const { data, error } = await query;
@@ -341,7 +345,8 @@ export async function fetchCampaignBreakdown(
     .from("outreach_sends")
     .select(
       "campaign_id, campaign_name, channel, email_opened, whatsapp_read, deliverability_status, message_id, is_unsubscribe"
-    );
+    )
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -352,7 +357,8 @@ export async function fetchCampaignBreakdown(
   // Fetch replies
   let repliesQuery = supabase
     .from("replies")
-    .select("campaign_id, channel, is_positive_reply, reply_id");
+    .select("campaign_id, channel, is_positive_reply, reply_id")
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -515,7 +521,8 @@ export async function fetchFunnelData(
     .from("outreach_sends")
     .select(
       "message_id, channel, email_opened, whatsapp_read, whatsapp_delivery_status, replied"
-    );
+    )
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -549,7 +556,8 @@ export async function fetchFunnelData(
   let repliesQuery = supabase
     .from("replies")
     .select("reply_id, is_positive_reply, channel")
-    .eq("is_positive_reply", true);
+    .eq("is_positive_reply", true)
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -575,7 +583,8 @@ export async function fetchBestDayOfWeek(
 
   let sendsQuery = supabase
     .from("outreach_sends")
-    .select("message_id, sent_day_of_week, channel, sent_at");
+    .select("message_id, sent_day_of_week, channel, sent_at")
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -586,7 +595,8 @@ export async function fetchBestDayOfWeek(
   let repliesQuery = supabase
     .from("replies")
     .select("message_id, is_positive_reply, channel")
-    .eq("is_positive_reply", true);
+    .eq("is_positive_reply", true)
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -648,7 +658,8 @@ export async function fetchBestHourOfDay(
 
   let sendsQuery = supabase
     .from("outreach_sends")
-    .select("message_id, sent_hour_utc, channel, sent_at");
+    .select("message_id, sent_hour_utc, channel, sent_at")
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -659,7 +670,8 @@ export async function fetchBestHourOfDay(
   let repliesQuery = supabase
     .from("replies")
     .select("message_id, is_positive_reply, channel")
-    .eq("is_positive_reply", true);
+    .eq("is_positive_reply", true)
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -716,7 +728,8 @@ export async function fetchSequenceStepBreakdown(
     .from("outreach_sends")
     .select(
       "message_id, sequence_step_number, channel, email_opened, whatsapp_read, replied"
-    );
+    )
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
   if (channel !== "all") sendsQuery = sendsQuery.eq("channel", channel);
 
@@ -727,7 +740,8 @@ export async function fetchSequenceStepBreakdown(
   let repliesQuery = supabase
     .from("replies")
     .select("message_id, is_positive_reply, channel")
-    .eq("is_positive_reply", true);
+    .eq("is_positive_reply", true)
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
@@ -887,7 +901,8 @@ export async function fetchCampaignList(range: DateRange): Promise<CampaignListI
   // Fetch sends grouped by campaign_id
   let sendsQuery = supabase
     .from("outreach_sends")
-    .select("campaign_id, message_id");
+    .select("campaign_id, message_id")
+    .limit(10000);
   if (fromDate) sendsQuery = sendsQuery.gte("sent_at", fromDate);
 
   const { data: sendsData, error: sendsError } = await sendsQuery;
@@ -896,7 +911,8 @@ export async function fetchCampaignList(range: DateRange): Promise<CampaignListI
   // Fetch replies grouped by campaign_id
   let repliesQuery = supabase
     .from("replies")
-    .select("campaign_id, reply_id, is_positive_reply");
+    .select("campaign_id, reply_id, is_positive_reply")
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
 
   const { data: repliesData, error: repliesError } = await repliesQuery;
@@ -1135,7 +1151,8 @@ export async function fetchReplySentiment(
 
   let repliesQuery = supabase
     .from("replies")
-    .select("reply_id, is_positive_reply, is_auto_reply, channel");
+    .select("reply_id, is_positive_reply, is_auto_reply, channel")
+    .limit(10000);
   if (fromDate) repliesQuery = repliesQuery.gte("received_at", fromDate);
   if (channel !== "all") repliesQuery = repliesQuery.eq("channel", channel);
 
